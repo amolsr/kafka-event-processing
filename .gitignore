@@ -1,1 +1,3 @@
 express-app/node_modules
+monitoring/grafana
+monitoring/prometheus

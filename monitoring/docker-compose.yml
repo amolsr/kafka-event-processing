@@ -1,0 +1,56 @@
+version: '3.4'
+services:
+  kafka_exporter:
+    image: bitnami/kafka-exporter:1.7.0
+    networks:
+      - kafka_poc_default
+    ports:
+      - 9308:9308
+    command: --kafka.server=172.24.0.1:9092
+  prometheus:
+    image: prom/prometheus
+    ports:
+      - "9090:9090"
+    networks:
+      - kafka_poc_default
+    volumes:
+      - ./prometheus:/prometheus
+    secrets:
+      - prometheus.yml
+    command: --config.file=/run/secrets/prometheus.yml --storage.tsdb.path=/prometheus --storage.tsdb.retention=168h
+  grafana:
+    image: grafana/grafana-oss:10.2.6-ubuntu
+    ports:
+      - "3000:3000"
+    networks:
+      - kafka_poc_default
+    volumes:
+      - ./grafana:/var/lib/grafana
+  jmx-exporter-broker:
+    image: bitnami/jmx-exporter:0.20.0
+    volumes:
+      - ${PWD}/exporter/exporter-brokers.yml:/opt/bitnami/jmx-exporter/exporter.yml
+    command:
+      - "5556"
+      - exporter.yml
+    ports:
+      - 9999:5556
+    networks:
+      - kafka_poc_default
+  # jmx-exporter-controller:
+  #   image: bitnami/jmx-exporter:0.20.0
+  #   volumes:
+  #     - ${PWD}/exporter/exporter-controllers.yml:/opt/bitnami/jmx-exporter/exporter.yml
+  #   command:
+  #     - "5556"
+  #     - exporter.yml
+  #   ports:
+  #     - 9998:5556
+  #   networks:
+  #     - kafka_poc_default
+secrets:
+  prometheus.yml:
+    file: config/prometheus.yml
+networks:
+  kafka_poc_default:
+    external: true
