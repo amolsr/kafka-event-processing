@@ -22,6 +22,10 @@
 
 ### Using Express App
 
-1. update the config in 
+1. Update the config in [Link](./express-app/config/kafka.js).
+
+2. install the npm package.
+
+3. Run the express server.
 
 [Link](./monitoring/Readme.md) for setting up the monitoring for kafka cluster.
