@@ -49,7 +49,7 @@ Start the Express Server: After configuring, start the Express.js server. This a
 4. Monitoring the Kafka Cluster
 Kafka cluster monitoring is essential for ensuring the health and performance of your Kafka brokers, topics, and messages.
 
-To set up monitoring, you can use tools like:
+# To set up monitoring, you can use tools like:
 
 Kafka Manager: A web-based tool that helps you monitor Kafka topics, brokers, and clusters.
 Prometheus and Grafana: For real-time monitoring and visualization of Kafka metrics.
